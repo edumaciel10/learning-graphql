@@ -1,70 +1,63 @@
-const { gql } = require('apollo-server-express');
-const Movie = require('./models/movie').Movies;
+const {
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLFloat,
+  GraphQLID,
+  GraphQLNonNull
+} = require("graphql")
 
-const typeDefs = gql`
-
-  type Movie {
-    id: ID
-    name: String!
-    producer: String!
-    rating: Float!
-  }
-  type Query{ 
-    getMovies: [Movie]
-    getMovie(id:ID): Movie
-  }
-  #my post, put, delete
-  type Mutation {
-    addMovie(name:String!, producer: String!, rating: Float!): Movie
-    updateMovie(id:ID!, name:String!, producer: String!, rating: Float): Movie
-    deleteMovie(id: ID!):Movie
-
-  }
-`
-const resolvers = {
-  Query: {
-    getMovies: (parent, args) => {
-      return Movie.find({})
+const  { Movies } = require( "./models/movie");
+console.log(Movies.find({}));
+const MovieType = new GraphQLObjectType({
+  name: 'movie',
+  description: "Graphql Movie Type",
+  fields: () => ({
+    id: {
+      type: GraphQLID,
+      resolve: (movie) => movie._id
     },
-    getMovie: (parent, args) => {
-      return Movie.findById(args.id)
+    name: {
+      type: GraphQLString,
+      resolve:(movie) => movie.name
+    },
+    producer: {
+      type: GraphQLString,
+      resolve: (movie) => movie.producer
+    },
+    rating: {
+      type: GraphQLFloat,
+      resolve: (movie) => movie.rating,
     }
-  },
-  Mutation: {
-    addMovie: (parent, args) => {
-      let Movies = new Movie({
-        name: args.name,
-        producer: args.producer,
-        rating: args.rating
-      })
-      return Movies.save()
-    },
-    updateMovie: (parent, args) => {
-      if (!args.id) return;
-      return Movie.findOneAndUpdate(
-        {
-          _id: args.id
-        },
-        {
-          $set: {
-            name: args.name,
-            producer: args.producer,
-            rating: args.rating,
-          }
-        }, { new: true }, (err, Movie) => {
-          if (err) {
-            console.log('Something went wrong when updating the movie');
-          } else {
-          }
+  })
+})
+
+const queryType = new GraphQLObjectType({
+  name: 'Query',
+  description: "get movie",
+  fields: () => ({
+    movie: {
+      type: MovieType,
+      args: {
+        id: {
+          description: 'id of movie',
+          type: GraphQLString
         }
-      );
+      }
     },
-    deleteMovie: (parent,args) => {
-      if(!args.id) return;
-      return Movie.findByIdAndRemove(args.id);
-    }
-  }
-}
+  }),
+  resolve: () => (Movies.find({})),
+})
+
+const MovieSchema = new GraphQLSchema({
+  query: queryType,
+});
+
 module.exports = {
-  typeDefs, resolvers
+  queryType,
+  MovieType,
+  MovieSchema
 }
+
+
+
