@@ -1,12 +1,12 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const {MovieSchema, MovieType, queryType } = require('./schema');
-const cors = require('cors'); 
-
-const { ApolloServer } = require('apollo-server-express'); 
+import express from 'express'
+import mongoose from 'mongoose'
+import cors  from 'cors'
+import { ApolloServer } from 'apollo-server-express'
+import schema from './schemas/schema'
 
 const url = "mongodb://localhost:27017/moviesdb"; 
 const connect = mongoose.connect(url, { useNewUrlParser: true,useUnifiedTopology: true  });
+
 
 connect.then((db) => {
   console.log('Connected correctly to server!');
@@ -14,15 +14,14 @@ connect.then((db) => {
   console.log(err);
 });
 
+
 const server = new ApolloServer({
-  schema: MovieSchema,
-  typeDefs: MovieType
+  schema
 });
 
 const app = express();
 
 app.use(express.json());
-app.use('*', cors());
 server.applyMiddleware({ app });
 app.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`));

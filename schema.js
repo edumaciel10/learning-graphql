@@ -8,29 +8,6 @@ const {
 } = require("graphql")
 
 const  { Movies } = require( "./models/movie");
-console.log(Movies.find({}));
-const MovieType = new GraphQLObjectType({
-  name: 'movie',
-  description: "Graphql Movie Type",
-  fields: () => ({
-    id: {
-      type: GraphQLID,
-      resolve: (movie) => movie._id
-    },
-    name: {
-      type: GraphQLString,
-      resolve:(movie) => movie.name
-    },
-    producer: {
-      type: GraphQLString,
-      resolve: (movie) => movie.producer
-    },
-    rating: {
-      type: GraphQLFloat,
-      resolve: (movie) => movie.rating,
-    }
-  })
-})
 
 const queryType = new GraphQLObjectType({
   name: 'Query',
