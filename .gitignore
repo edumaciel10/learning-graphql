@@ -1,1 +1,13 @@
 node_modules
+dist/crud.js
+dist/test.js
+dist/modules/movie/index.js
+dist/modules/movie/MovieInputFilterType.js
+dist/modules/movie/MovieModel.js
+dist/modules/movie/MovieType.js
+dist/modules/movie/mutations/index.js
+dist/modules/movie/mutations/MovieCreateMutation.js
+dist/modules/movie/mutations/MovieUpdateMutation.js
+dist/schemas/MutationType.js
+dist/schemas/QueryType.js
+dist/schemas/schema.js

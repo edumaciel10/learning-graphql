@@ -13,9 +13,8 @@ connect.then((db) => {
   console.log(err);
 });
 
-const app = express();
-app.on('connect', () => express.json());
 
+const app = express();
 const server = new ApolloServer({
   schema
 });
@@ -23,4 +22,5 @@ server.applyMiddleware({ app });
 
 app.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`));
+  
 export default app
