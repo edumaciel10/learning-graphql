@@ -1,5 +1,9 @@
-import createUserMutation from "./MovieCreateMutation";
+import addMovie from "./MovieCreateMutation";
+import updateMovie from "./MovieUpdateMutation";
+import deleteMovie from "./MovieDeleteMutation";
 
 export default {
-    createUserMutation
+    addMovie,
+    updateMovie,
+    deleteMovie
 }
