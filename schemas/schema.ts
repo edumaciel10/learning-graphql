@@ -1,9 +1,9 @@
 import { GraphQLSchema } from "graphql";
 import MutationType from "./MutationType";
-// import QueryType from "./QueryType";
+import QueryType from "./QueryType";
 
 export const schema = new GraphQLSchema({
-    // query: QueryType,
+    query: QueryType,
     mutation: MutationType
 })
 
